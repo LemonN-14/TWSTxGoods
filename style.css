@@ -1,0 +1,451 @@
+/* =================================================================
+   1. General Layout & Body
+   ================================================================= */
+body {
+    font-family: 'Sarabun', sans-serif;
+    margin: 0;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, border 0.3s;
+}
+
+/* =================================================================
+   2. Header & Actions
+   ================================================================= */
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid;
+    transition: border-bottom 0.3s;
+}
+
+h1 {
+    margin: 0;
+    transition: color 0.3s;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-btn,
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s, background-color 0.3s, color 0.3s;
+}
+
+.header-btn:hover,
+.add-btn:hover {
+    transform: scale(1.1);
+}
+
+.add-btn {
+    border-radius: 50%;
+    font-size: 24px;
+}
+
+.theme-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* =================================================================
+   3. Search & Filter
+   ================================================================= */
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#searchInput,
+#categoryFilter {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+#searchInput {
+    flex-grow: 1;
+    min-width: 150px;
+}
+
+/* =================================================================
+   4. Table Styles
+   ================================================================= */
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#inventoryTable th,
+#inventoryTable td {
+    padding: 12px;
+    border: 1px solid;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+    transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+
+#inventoryTable th:nth-of-type(1),
+#inventoryTable th:nth-of-type(7) { width: 80px; }
+#inventoryTable th:nth-of-type(2) { width: 120px; }
+#inventoryTable th:nth-of-type(4),
+#inventoryTable th:nth-of-type(5),
+#inventoryTable th:nth-of-type(6) { width: 15%; }
+
+#inventoryTable img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 4px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.checkbox-col,
+.action-col {
+    display: none;
+}
+
+.checkbox-col input {
+    width: 20px;
+    height: 20px;
+}
+
+/* =================================================================
+   5. Edit Mode
+   ================================================================= */
+body.edit-mode .checkbox-col,
+body.edit-mode .action-col {
+    display: table-cell;
+}
+
+body.edit-mode #inventoryBody {
+    cursor: move;
+}
+
+.sortable-ghost {
+    opacity: 0.7;
+}
+
+/* =================================================================
+   6. Modal Styles
+   ================================================================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.is-open {
+    display: flex;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 8px;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.close-button {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#productForm label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+#productForm input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+.remove-image-btn {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+}
+
+.remove-image-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.confirm-modal-content {
+    max-width: 400px;
+    text-align: center;
+}
+
+#confirmTitle {
+    transition: color 0.3s;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.confirm-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-btn { background-color: #6c757d; color: white; }
+.delete-confirm-btn { background-color: #dc3545; color: white; }
+
+/* Image Viewer Modal */
+.image-viewer-modal {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.image-modal-content {
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+#modalImage {
+    max-width: 67.5vw;
+    max-height: 67.5vh;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+    object-fit: contain;
+}
+
+/* =================================================================
+   7. Dark & Light Mode Themes
+   ================================================================= */
+/* Dark Mode (Default) */
+body.dark-mode {
+    background-color: #414141;
+    color: #e0e0e0;
+    background-image: 
+        repeating-linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a), 
+        repeating-linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a);
+    background-position: 0 0, 15px 15px;
+    background-size: 30px 30px;
+}
+body.dark-mode .container { background: #000000; border: 1px solid #bcad8d; }
+body.dark-mode .header { border-bottom-color: #bcad8d; }
+body.dark-mode h1 { color: #cac0a4; }
+body.dark-mode .header-btn, body.dark-mode .add-btn { background-color: #cac0a4; color: #212121; }
+body.dark-mode #searchInput, body.dark-mode #categoryFilter { background-color: #222; color: #e0e0e0; border-color: #bcad8d; }
+body.dark-mode #inventoryTable th, body.dark-mode #inventoryTable td { border-color: #bcad8d; }
+body.dark-mode #inventoryTable th { background-color: #1a1a1a; color: #cac0a4; }
+body.dark-mode .modal-content { background-color: #000000; border-color: #bcad8d; }
+body.dark-mode .close-button { color: #aaa; }
+body.dark-mode .close-button:hover { color: #fff; }
+body.dark-mode #productForm label { color: #cac0a4; }
+body.dark-mode #productForm input { background-color: #222; color: #e0e0e0; border-color: #bcad8d; }
+body.dark-mode .save-btn { background-color: #cac0a4; color: #212121; }
+body.dark-mode #confirmTitle { color: #cac0a4; }
+body.dark-mode.edit-mode { background-color: #4f4143; }
+body.dark-mode .sortable-ghost { background: #333; }
+
+/* Light Mode */
+body.light-mode {
+    background-color: #f0f0f0;
+    color: #333;
+    background-image: 
+        repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), 
+        repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
+}
+body.light-mode .container { background: #ffffff; border: 1px solid #ccc; }
+body.light-mode .header { border-bottom-color: #ddd; }
+body.light-mode h1 { color: #0056b3; }
+body.light-mode .header-btn, body.light-mode .add-btn { background-color: #007bff; color: #fff; }
+body.light-mode #searchInput, body.light-mode #categoryFilter { background-color: #fff; color: #333; border-color: #ccc; }
+body.light-mode #inventoryTable th, body.light-mode #inventoryTable td { border-color: #ddd; }
+body.light-mode #inventoryTable th { background-color: #f2f2f2; color: #0056b3; }
+body.light-mode .modal-content { background-color: #ffffff; border-color: #ccc; }
+body.light-mode .close-button { color: #888; }
+body.light-mode .close-button:hover { color: #000; }
+body.light-mode #productForm label { color: #0056b3; }
+body.light-mode #productForm input { background-color: #f9f9f9; color: #333; border-color: #ccc; }
+body.light-mode .save-btn { background-color: #007bff; color: #fff; }
+body.light-mode #confirmTitle { color: #0056b3; }
+body.light-mode.edit-mode { background-color: #fff0f2; }
+body.light-mode .sortable-ghost { background: #e6f7ff; }
+
+/* =================================================================
+   8. Responsive Design (Mobile)
+   ================================================================= */
+@media screen and (max-width: 768px) {
+    body { padding: 5px; } 
+    .container { padding: 10px; }
+
+    #inventoryTable { border: 0; }
+    #inventoryTable thead { display: none; }
+
+    #inventoryTable tr {
+        display: block;
+        position: relative;
+        padding: 10px;
+        padding-left: 115px;
+        min-height: 100px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        transition: padding-left 0.3s;
+    }
+    body.dark-mode #inventoryTable tr { background-color: #1a1a1a; border-color: #bcad8d; }
+    body.light-mode #inventoryTable tr { background-color: #fff; border-color: #ddd; }
+    
+    body.edit-mode #inventoryTable tr {
+        padding-left: 145px;
+    }
+
+    #inventoryTable td[data-label="รูปสินค้า"] {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 90px;
+        height: 90px;
+        padding: 0;
+        border: none;
+        transition: left 0.3s;
+    }
+    body.edit-mode #inventoryTable td[data-label="รูปสินค้า"] {
+        left: 45px;
+    }
+    #inventoryTable td[data-label="รูปสินค้า"] img { width: 100%; height: 100%; }
+    #inventoryTable td[data-label="รูปสินค้า"]::before { display: none; }
+    
+    #inventoryTable td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 5px;
+        text-align: right;
+        border: none;
+        border-bottom: 1px solid;
+    }
+    body.dark-mode #inventoryTable td { border-color: #555; }
+    body.light-mode #inventoryTable td { border-color: #eee; }
+    
+    #inventoryTable td:last-of-type {
+        border-bottom: none;
+    }
+
+    #inventoryTable td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        padding-right: 15px;
+    }
+    
+    .action-col {
+        display: none !important;
+    }
+
+    .checkbox-col {
+        display: none !important;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: auto;
+        border: none;
+        padding: 0;
+    }
+    .checkbox-col::before {
+        display: none;
+    }
+    body.edit-mode .checkbox-col {
+        display: block !important;
+    }
+    
+    body.edit-mode .action-col {
+        display: block !important;
+        position: relative;
+        padding-left: 0;
+        text-align: center;
+        border-bottom: 1px solid;
+        margin-top: 10px;
+    }
+    body.edit-mode .action-col {
+        border-bottom: none;
+    }
+    body.edit-mode .action-col::before {
+        display: none;
+    }
+}
