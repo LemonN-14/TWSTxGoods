@@ -1,12 +1,19 @@
-/* --- ซ่อน Scrollbar ของระบบ แต่ให้ยังเลื่อนได้ --- */
+/* --- ตั้งค่าเริ่มต้น ป้องกันหน้าจอล้นและซ่อน Scrollbar --- */
+* {
+    box-sizing: border-box; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
 ::-webkit-scrollbar {
     width: 0px;
     height: 0px;
     background: transparent; 
 }
-* {
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
+
+/* ล็อคไม่ให้ขยับซ้ายขวาได้เด็ดขาด */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* --- 1. General Layout & Body --- */
@@ -86,9 +93,7 @@ body.light-mode .sticky-top-area { background-color: #ffffff; border-bottom: 1px
 .header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
 .header-title-wrapper { display: flex; align-items: center; gap: 10px; }
 
-/* บังคับซ่อนปุ่มของมือถือบนหน้าจอคอมเด็ดขาด */
 .mobile-auth-btn { display: none !important; } 
-
 .mobile-auth-btn.logout-state { background-color: #dc3545; color: white; border-color: transparent;}
 body.light-mode .mobile-auth-btn.logout-state { background-color: #dc3545; color: white; border-color: transparent;}
 
@@ -177,70 +182,118 @@ body.light-mode #confirmTitle { color: #0056b3; }
 
 /* --- 8. Responsive Design (Mobile) --- */
 @media screen and (max-width: 768px) {
-    body { padding: 5px; } 
-    .container { padding: 10px; margin-top: 20px; } 
+    /* รีเซ็ตและลดขนาดพื้นที่ต่างๆ ให้เล็กกะทัดรัดลงอีก */
+    body { padding: 0; } 
+    .container { padding: 8px; margin-top: 0; border: none; box-shadow: none; border-radius: 0; width: 100%; } 
     
     .floating-auth { display: none !important; }
     .mobile-auth-btn { display: flex !important; }
 
     .sticky-top-area {
-        padding-top: 15px; padding-bottom: 10px;
-        margin-top: -10px; margin-left: -10px; margin-right: -10px;
-        padding-left: 10px; padding-right: 10px;
+        padding-top: 5px; padding-bottom: 5px;
+        margin-top: -8px; margin-left: -8px; margin-right: -8px;
+        padding-left: 8px; padding-right: 8px;
     }
 
-    #inventoryTable { border: 0; min-width: auto; }
+    .header { margin-bottom: 5px; }
+    h1 { font-size: 20px; }
+    .header-btn, .add-btn { width: 32px; height: 32px; font-size: 13px; }
+    .add-btn { font-size: 18px; }
+    
+    .search-container { gap: 5px; flex-wrap: nowrap; margin-bottom: 5px; }
+    #searchInput { flex-grow: 1; width: 100%; min-width: 0; padding: 6px; font-size: 13px; }
+    #categoryFilter { padding: 6px; font-size: 13px; max-width: 90px; }
+    #sortBtn { width: 32px; height: 32px; flex-shrink: 0; }
+
+    .table-responsive { overflow-x: hidden; width: 100%; margin-top: 5px; }
+    #inventoryTable { border: 0; min-width: auto; width: 100%; display: block; }
+    #inventoryTable tbody { display: block; width: 100%; }
     #inventoryTable thead { display: none; }
     
-    #inventoryTable tr { display: block; position: relative; padding: 10px; padding-left: 115px; min-height: 100px; margin-bottom: 15px; border-radius: 8px; }
+    /* กล่องรายการ (Card) เล็กลง */
+    #inventoryTable tr { 
+        display: block; position: relative; 
+        padding: 8px; 
+        padding-left: 90px; /* ลดขอบซ้ายให้เข้ากับรูปที่เล็กลง */
+        min-height: 75px; 
+        margin-bottom: 10px; 
+        border-radius: 8px; 
+        font-size: 8px; /* ลดขนาดฟอนต์ให้เล็กสุด */
+        width: 100%;
+    }
     body.dark-mode #inventoryTable tr { background-color: #1a1a1a; border: 1px solid #bcad8d; }
-    body.light-mode #inventoryTable tr { background-color: #fff; border: 1px solid #ddd; }
-    body.edit-mode #inventoryTable tr { padding-left: 145px; }
+    body.light-mode #inventoryTable tr { background-color: #fff; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+    body.edit-mode #inventoryTable tr { padding-left: 120px; }
     
-    #inventoryTable tr.empty-row { display: block; padding: 30px 10px; text-align: center; min-height: auto; }
+    #inventoryTable tr.empty-row { display: block; padding: 15px 10px; text-align: center; min-height: auto; border: none; box-shadow: none; background: transparent;}
     #inventoryTable tr.empty-row td { display: block; text-align: center; padding: 0; border: none; }
     #inventoryTable tr.empty-row td::before { display: none; }
 
-    #inventoryTable td[data-label="รูปสินค้า"] { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 90px; height: 90px; padding: 0; border: none; transition: left 0.3s; }
-    body.edit-mode #inventoryTable td[data-label="รูปสินค้า"] { left: 45px; }
-    #inventoryTable td[data-label="รูปสินค้า"] img { width: 100%; height: 100%; }
+    /* ลดขนาดรูปภาพลงอีก */
+    #inventoryTable td[data-label="รูปสินค้า"] { 
+        position: absolute; left: 10px; top: 50%; transform: translateY(-50%); 
+        width: 70px; height: 70px; padding: 0; border: none; transition: left 0.3s; 
+    }
+    body.edit-mode #inventoryTable td[data-label="รูปสินค้า"] { left: 40px; }
+    #inventoryTable td[data-label="รูปสินค้า"] img { width: 100%; height: 100%; border-radius: 4px;}
     #inventoryTable td[data-label="รูปสินค้า"]::before { display: none; }
     
-    #inventoryTable td { display: flex; justify-content: space-between; align-items: center; padding: 4px 5px; text-align: right; border: none; border-bottom: 1px solid; word-wrap: normal; word-break: break-all;} 
+    /* การแสดงผลแต่ละบรรทัดข้อมูล (ใช้ block และ float เพื่อระยะห่างที่แน่ชัด) */
+    #inventoryTable td { 
+        display: block; /* เปลี่ยนเป็น Block เพื่อคุม Float และ text-overflow */
+        text-align: right; 
+        border: none; border-bottom: 1px solid; 
+        padding: 4px 0; 
+    } 
+    body.dark-mode #inventoryTable td { border-color: #333; }
+    body.light-mode #inventoryTable td { border-color: #eee; }
+    #inventoryTable td:last-of-type { border-bottom: none; }
     
-    /* ตัดคำรายการยาวๆ บนมือถือให้เป็น ... */
+    /* ปรับสีและระยะห่างของหัวข้อ (Label) */
+    #inventoryTable td::before { 
+        content: attr(data-label); 
+        font-weight: bold; 
+        float: left; /* ลอยไปทางซ้าย */
+        text-align: left; 
+        margin-right: 20px; /* เพิ่มระยะห่างที่ชัดเจน ห่างกันอย่างน้อย 20px */
+    }
+    body.dark-mode #inventoryTable td::before { color: #cac0a4; } 
+    body.light-mode #inventoryTable td::before { color: #0056b3; } 
+    
+    /* เคลียร์ float ทุกครั้งหลังจบข้อมูลแต่ละบรรทัด */
+    #inventoryTable td::after { 
+        content: ""; display: table; clear: both; 
+    }
+    
+    /* ระบบตัดคำ (Ellipsis) สำหรับชื่อรายการยาวๆ */
     .product-name-col { 
+        display: block !important; 
         text-align: right !important; 
-        padding-left: 5px !important; 
+        padding-left: 0 !important; 
         white-space: nowrap; 
         overflow: hidden; 
         text-overflow: ellipsis; 
-        max-width: 60%; /* บังคับความกว้างสูงสุดเพื่อให้มีที่เหลือโชว์ ... */
-        display: inline-block; /* เพื่อให้ text-overflow ทำงานใน flexbox */
     }
 
-    body.dark-mode #inventoryTable td { border-color: #555; }
-    body.light-mode #inventoryTable td { border-color: #eee; }
-    #inventoryTable td:last-of-type { border-bottom: none; }
-    #inventoryTable td::before { content: attr(data-label); font-weight: bold; text-align: left; padding-right: 15px; flex-shrink: 0;}
-    
+    /* ช่อง Checkbox */
     .checkbox-col { display: none !important; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: auto; border: none; padding: 0; }
     .checkbox-col::before { display: none; }
     body.edit-mode .checkbox-col { display: block !important; }
 
-    /* ปุ่มแก้ไขในโหมดมือถือ ชิดขวาสุด */
+    /* ปุ่มแก้ไขในโหมดมือถือ ชิดขวาสุด และไม่ล้นกรอบ */
     .action-col { display: none !important; }
     body.edit-mode .action-col { 
-        display: flex !important; 
-        justify-content: flex-end; /* จัดปุ่มไปชิดขวา */
+        display: block !important; 
         position: relative; 
         padding-left: 0; 
-        border-top: 1px solid; /* เปลี่ยนเป็นขอบบน */
-        border-bottom: none;
-        margin-top: 10px; 
-        padding-top: 10px; /* เพิ่มระยะห่างด้านบน */
+        border-top: 1px solid; border-bottom: none; 
+        margin-top: 5px; padding-top: 8px; 
     }
-    body.dark-mode .action-col { border-color: #555; }
+    body.dark-mode .action-col { border-color: #444; }
     body.light-mode .action-col { border-color: #eee; }
     body.edit-mode .action-col::before { display: none; }
+    
+    body.edit-mode .action-col .edit-btn {
+        float: right; 
+    }
 }
