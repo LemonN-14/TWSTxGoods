@@ -1,451 +1,246 @@
-/* =================================================================
-   1. General Layout & Body
-   ================================================================= */
-body {
-    font-family: 'Sarabun', sans-serif;
-    margin: 0;
-    padding: 10px;
-    transition: background-color 0.3s, color 0.3s;
+/* --- ซ่อน Scrollbar ของระบบ แต่ให้ยังเลื่อนได้ --- */
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent; 
+}
+* {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
-.hidden {
-    display: none !important;
-}
+/* --- 1. General Layout & Body --- */
+:root { --text-color: #333; } 
+body { font-family: 'Sarabun', sans-serif; margin: 0; padding: 10px; transition: background-color 0.3s, color 0.3s, background-image 0.3s; }
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.center-block { display: block; margin-left: auto; margin-right: auto; }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, border 0.3s;
-}
+.container { max-width: 1200px; margin: 0 auto; margin-top: 50px; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); transition: background-color 0.3s, border 0.3s; position: relative; }
 
-/* =================================================================
-   2. Header & Actions
-   ================================================================= */
-.header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid;
-    transition: border-bottom 0.3s;
-}
-
-h1 {
-    margin: 0;
-    transition: color 0.3s;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-btn,
-.add-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: transform 0.2s, background-color 0.3s, color 0.3s;
-}
-
-.header-btn:hover,
-.add-btn:hover {
-    transform: scale(1.1);
-}
-
-.add-btn {
-    border-radius: 50%;
-    font-size: 24px;
-}
-
-.theme-btn {
-    background-color: #6c757d;
-    color: white;
-}
-
-/* =================================================================
-   3. Search & Filter
-   ================================================================= */
-.search-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-#searchInput,
-#categoryFilter {
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid;
-    transition: background-color 0.3s, color 0.3s, border 0.3s;
-}
-
-#searchInput {
-    flex-grow: 1;
-    min-width: 150px;
-}
-
-/* =================================================================
-   4. Table Styles
-   ================================================================= */
-#inventoryTable {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-#inventoryTable th,
-#inventoryTable td {
-    padding: 12px;
-    border: 1px solid;
-    text-align: center;
-    vertical-align: middle;
-    word-wrap: break-word;
-    transition: border 0.3s, background-color 0.3s, color 0.3s;
-}
-
-#inventoryTable th:nth-of-type(1),
-#inventoryTable th:nth-of-type(7) { width: 80px; }
-#inventoryTable th:nth-of-type(2) { width: 120px; }
-#inventoryTable th:nth-of-type(4),
-#inventoryTable th:nth-of-type(5),
-#inventoryTable th:nth-of-type(6) { width: 15%; }
-
-#inventoryTable img {
-    display: block;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-    border-radius: 4px;
-    object-fit: cover;
-    cursor: pointer;
-}
-
-.checkbox-col,
-.action-col {
-    display: none;
-}
-
-.checkbox-col input {
-    width: 20px;
-    height: 20px;
-}
-
-/* =================================================================
-   5. Edit Mode
-   ================================================================= */
-body.edit-mode .checkbox-col,
-body.edit-mode .action-col {
-    display: table-cell;
-}
-
-body.edit-mode #inventoryBody {
-    cursor: move;
-}
-
-.sortable-ghost {
-    opacity: 0.7;
-}
-
-/* =================================================================
-   6. Modal Styles
-   ================================================================= */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal.is-open {
-    display: flex;
-}
-
-.modal-content {
-    width: 90%;
-    max-width: 500px;
-    padding: 25px;
-    border-radius: 8px;
-    transition: background-color 0.3s, border 0.3s;
-}
-
-.close-button {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#productForm label {
-    display: block;
-    margin-top: 15px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-#productForm input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid;
-    border-radius: 4px;
-    box-sizing: border-box;
-    transition: background-color 0.3s, color 0.3s, border 0.3s;
-}
-
-.remove-image-btn {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #dc3545;
-    color: white;
-    cursor: pointer;
-}
-
-.remove-image-btn:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
-
-.save-btn {
-    width: 100%;
-    padding: 12px 15px;
-    margin-top: 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.confirm-modal-content {
-    max-width: 400px;
-    text-align: center;
-}
-
-#confirmTitle {
-    transition: color 0.3s;
-}
-
-.confirm-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.confirm-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.cancel-btn { background-color: #6c757d; color: white; }
-.delete-confirm-btn { background-color: #dc3545; color: white; }
-
-/* Image Viewer Modal */
-.image-viewer-modal {
-    background-color: rgba(0, 0, 0, 0.85);
-}
-
-.image-modal-content {
-    width: auto;
-    height: auto;
-    padding: 0;
-    background: none;
-    border: none;
-}
-
-#modalImage {
-    max-width: 67.5vw;
-    max-height: 67.5vh;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
-    object-fit: contain;
-}
-
-/* =================================================================
-   7. Dark & Light Mode Themes
-   ================================================================= */
-/* Dark Mode (Default) */
-body.dark-mode {
-    background-color: #414141;
-    color: #e0e0e0;
+/* ธีมมืด */
+body.dark-mode { 
+    --text-color: #e0e0e0; 
+    background-color: #1a1a1a; 
+    color: var(--text-color); 
     background-image: 
-        repeating-linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a), 
-        repeating-linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a);
-    background-position: 0 0, 15px 15px;
-    background-size: 30px 30px;
+        linear-gradient(to bottom, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.4) 100%),
+        linear-gradient(45deg, #303030 25%, transparent 25%, transparent 75%, #303030 75%, #303030), 
+        linear-gradient(45deg, #303030 25%, transparent 25%, transparent 75%, #303030 75%, #303030);
+    background-position: 0 0, 0 0, 15px 15px; 
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+    background-attachment: fixed;
 }
 body.dark-mode .container { background: #000000; border: 1px solid #bcad8d; }
-body.dark-mode .header { border-bottom-color: #bcad8d; }
-body.dark-mode h1 { color: #cac0a4; }
-body.dark-mode .header-btn, body.dark-mode .add-btn { background-color: #cac0a4; color: #212121; }
-body.dark-mode #searchInput, body.dark-mode #categoryFilter { background-color: #222; color: #e0e0e0; border-color: #bcad8d; }
-body.dark-mode #inventoryTable th, body.dark-mode #inventoryTable td { border-color: #bcad8d; }
-body.dark-mode #inventoryTable th { background-color: #1a1a1a; color: #cac0a4; }
-body.dark-mode .modal-content { background-color: #000000; border-color: #bcad8d; }
-body.dark-mode .close-button { color: #aaa; }
-body.dark-mode .close-button:hover { color: #fff; }
-body.dark-mode #productForm label { color: #cac0a4; }
-body.dark-mode #productForm input { background-color: #222; color: #e0e0e0; border-color: #bcad8d; }
-body.dark-mode .save-btn { background-color: #cac0a4; color: #212121; }
-body.dark-mode #confirmTitle { color: #cac0a4; }
-body.dark-mode.edit-mode { background-color: #4f4143; }
-body.dark-mode .sortable-ghost { background: #333; }
 
-/* Light Mode */
-body.light-mode {
-    background-color: #f0f0f0;
-    color: #333;
+/* ธีมสว่าง */
+body.light-mode { 
+    background-color: #ffffff; 
+    color: #333; 
     background-image: 
-        repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), 
-        repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
+        linear-gradient(45deg, #fbf7f0 25%, transparent 25%, transparent 75%, #fbf7f0 75%, #fbf7f0), 
+        linear-gradient(45deg, #fbf7f0 25%, transparent 25%, transparent 75%, #fbf7f0 75%, #fbf7f0);
+    background-position: 0 0, 20px 20px;
+    background-size: 40px 40px;
+    background-attachment: fixed; 
 }
-body.light-mode .container { background: #ffffff; border: 1px solid #ccc; }
-body.light-mode .header { border-bottom-color: #ddd; }
-body.light-mode h1 { color: #0056b3; }
+body.light-mode .container { background: #ffffff; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+
+/* --- Floating Auth Icon & Dropdown --- */
+.floating-auth { position: absolute; top: 15px; left: 15px; z-index: 2000; }
+.auth-icon-btn { background: #222; border: 2px solid #bcad8d; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #cac0a4; font-size: 24px; transition: transform 0.2s, box-shadow 0.3s; padding: 0; overflow: hidden; }
+body.light-mode .auth-icon-btn { background: #fff; border: 2px solid #ccc; color: #007bff; }
+.auth-icon-btn:hover { transform: scale(1.1); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.auth-icon-btn img { width: 100%; height: 100%; object-fit: cover; }
+.auth-dropdown { position: absolute; top: 60px; left: 0; width: 200px; padding: 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); text-align: center; }
+body.dark-mode .auth-dropdown { background: #1a1a1a; border: 1px solid #bcad8d; color: #e0e0e0; }
+body.light-mode .auth-dropdown { background: #fff; border: 1px solid #ccc; color: #333; }
+.auth-dropdown p { margin-top: 0; margin-bottom: 15px; font-weight: bold;}
+.logout-btn { background-color: #6c757d; color: white; border: none; padding: 8px 15px; font-size: 14px; border-radius: 5px; cursor: pointer; width: 100%; transition: background 0.3s; }
+.logout-btn:hover { background-color: #5a6268; }
+
+/* --- Google Login Button --- */
+.google-login-btn { background-color: #db4437; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; width: fit-content; }
+.google-login-btn:hover { background-color: #c23321; }
+
+/* --- Sticky Top Area --- */
+.sticky-top-area {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-top: 25px; 
+    padding-bottom: 15px;
+    margin-top: -25px; 
+    margin-left: -25px;
+    margin-right: -25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: background-color 0.3s;
+}
+body.dark-mode .sticky-top-area { background-color: #000000; border-bottom: 1px solid #333; }
+body.light-mode .sticky-top-area { background-color: #ffffff; border-bottom: 1px solid #eee; }
+
+/* --- 2. Header & Actions --- */
+.header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
+.header-title-wrapper { display: flex; align-items: center; gap: 10px; }
+
+/* บังคับซ่อนปุ่มของมือถือบนหน้าจอคอมเด็ดขาด */
+.mobile-auth-btn { display: none !important; } 
+
+.mobile-auth-btn.logout-state { background-color: #dc3545; color: white; border-color: transparent;}
+body.light-mode .mobile-auth-btn.logout-state { background-color: #dc3545; color: white; border-color: transparent;}
+
+h1 { margin: 0; transition: color 0.3s; }
+body.dark-mode h1 { color: #cac0a4; }
+.header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
+
+.header-btn, .add-btn { display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; width: 40px; height: 40px; font-size: 16px; border-radius: 8px; transition: transform 0.2s, background-color 0.3s, color 0.3s; flex-shrink: 0; }
+.header-btn:hover, .add-btn:hover { transform: scale(1.1); }
+.add-btn { border-radius: 50%; font-size: 24px; }
+body.dark-mode .header-btn, body.dark-mode .add-btn { background-color: #cac0a4; color: #212121; }
 body.light-mode .header-btn, body.light-mode .add-btn { background-color: #007bff; color: #fff; }
-body.light-mode #searchInput, body.light-mode #categoryFilter { background-color: #fff; color: #333; border-color: #ccc; }
-body.light-mode #inventoryTable th, body.light-mode #inventoryTable td { border-color: #ddd; }
+.theme-btn { background-color: #6c757d; color: white; }
+
+/* --- 3. Search & Filter --- */
+.search-container { display: flex; flex-wrap: wrap; gap: 10px; }
+#searchInput, #categoryFilter { padding: 10px; border-radius: 4px; transition: background-color 0.3s, color 0.3s, border 0.3s; outline: none; }
+#searchInput { flex-grow: 1; min-width: 150px; }
+body.dark-mode #searchInput, body.dark-mode #categoryFilter { background-color: #222; color: #e0e0e0; border: 1px solid #bcad8d; }
+body.light-mode #searchInput, body.light-mode #categoryFilter { background-color: #fff; color: #333; border: 1px solid #ccc; }
+
+/* --- 4. Table Styles --- */
+.table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 15px; }
+#inventoryTable { width: 100%; min-width: 900px; border-collapse: collapse; table-layout: auto; }
+#inventoryTable th, #inventoryTable td { border: 1px solid #bcad8d; padding: 12px; text-align: center; vertical-align: middle; transition: border 0.3s, background-color 0.3s, color 0.3s; word-wrap: break-word; }
+body.dark-mode #inventoryTable th { background-color: #1a1a1a; color: #cac0a4; }
+body.light-mode #inventoryTable th, body.light-mode #inventoryTable td { border: 1px solid #ddd; }
 body.light-mode #inventoryTable th { background-color: #f2f2f2; color: #0056b3; }
-body.light-mode .modal-content { background-color: #ffffff; border-color: #ccc; }
-body.light-mode .close-button { color: #888; }
-body.light-mode .close-button:hover { color: #000; }
-body.light-mode #productForm label { color: #0056b3; }
-body.light-mode #productForm input { background-color: #f9f9f9; color: #333; border-color: #ccc; }
-body.light-mode .save-btn { background-color: #007bff; color: #fff; }
-body.light-mode #confirmTitle { color: #0056b3; }
+
+.product-name-col { text-align: left !important; padding-left: 15px !important; }
+
+#inventoryTable th:nth-of-type(1), #inventoryTable th:nth-of-type(8) { width: 50px; min-width: 50px; } 
+#inventoryTable th:nth-of-type(2) { width: 100px; min-width: 100px; } 
+#inventoryTable th:nth-of-type(3) { min-width: 200px; } 
+#inventoryTable th:nth-of-type(4), #inventoryTable th:nth-of-type(5), #inventoryTable th:nth-of-type(6) { width: 90px; min-width: 90px; } 
+#inventoryTable th:nth-of-type(7) { width: 150px; min-width: 150px; } 
+
+#inventoryTable img { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; display: block; margin: 0 auto; cursor: pointer; }
+.checkbox-col, .action-col { display: none; }
+.checkbox-col input { width: 20px; height: 20px; cursor: pointer;}
+
+/* --- 5. Edit Mode --- */
+body.edit-mode.dark-mode { background-color: #4f4143; }
 body.light-mode.edit-mode { background-color: #fff0f2; }
+body.edit-mode .checkbox-col, body.edit-mode .action-col { display: table-cell; }
+body.edit-mode #inventoryBody { cursor: move; }
+.sortable-ghost { opacity: 0.7; }
+body.dark-mode .sortable-ghost { background: #333; }
 body.light-mode .sortable-ghost { background: #e6f7ff; }
 
-/* =================================================================
-   8. Responsive Design (Mobile)
-   ================================================================= */
+/* --- 6. Modal Styles --- */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; }
+.modal.is-open { display: flex; }
+.modal-content { padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; transition: background-color 0.3s, border 0.3s; }
+body.dark-mode .modal-content { background-color: #000000; border: 1px solid #bcad8d; }
+body.light-mode .modal-content { background-color: #ffffff; border: 1px solid #ccc; }
+.close-button { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+body.dark-mode .close-button { color: #aaa; }
+body.dark-mode .close-button:hover { color: #fff; }
+body.light-mode .close-button { color: #888; }
+body.light-mode .close-button:hover { color: #000; }
+#productForm label { display: block; margin-top: 15px; font-weight: bold; transition: color 0.3s; }
+body.dark-mode #productForm label { color: #cac0a4; }
+body.light-mode #productForm label { color: #0056b3; }
+#productForm input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 4px; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border 0.3s; outline: none;}
+body.dark-mode #productForm input { background-color: #222; color: #e0e0e0; border: 1px solid #bcad8d; }
+body.light-mode #productForm input { background-color: #f9f9f9; color: #333; border: 1px solid #ccc; }
+.remove-image-btn { width: 100%; padding: 8px; margin-top: 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
+.remove-image-btn:disabled { background-color: #6c757d; cursor: not-allowed; }
+.save-btn { padding: 12px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px; width: 100%; font-size: 16px; transition: background-color 0.3s, color 0.3s; font-weight: bold;}
+.save-btn:disabled { opacity: 0.7; cursor: wait; }
+body.dark-mode .save-btn { background-color: #cac0a4; color: #212121; }
+body.light-mode .save-btn { background-color: #007bff; color: #fff; }
+.confirm-modal-content { text-align: center; max-width: 400px; }
+#confirmTitle { transition: color 0.3s; }
+body.dark-mode #confirmTitle { color: #cac0a4; }
+body.light-mode #confirmTitle { color: #0056b3; }
+.confirm-actions { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+.confirm-btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+.confirm-btn:disabled { opacity: 0.7; cursor: wait; }
+.cancel-btn { background-color: #6c757d; color: white; }
+.delete-confirm-btn { background-color: #dc3545; color: white; }
+.image-viewer-modal { background-color: rgba(0, 0, 0, 0.85); }
+.image-modal-content { background: none; border: none; width: auto; height: auto; padding: 0; }
+#modalImage { max-width: 67.5vw; max-height: 67.5vh; object-fit: contain; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.7); }
+
+/* --- 8. Responsive Design (Mobile) --- */
 @media screen and (max-width: 768px) {
     body { padding: 5px; } 
-    .container { padding: 10px; }
-
-    #inventoryTable { border: 0; }
-    #inventoryTable thead { display: none; }
-
-    #inventoryTable tr {
-        display: block;
-        position: relative;
-        padding: 10px;
-        padding-left: 115px;
-        min-height: 100px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-        transition: padding-left 0.3s;
-    }
-    body.dark-mode #inventoryTable tr { background-color: #1a1a1a; border-color: #bcad8d; }
-    body.light-mode #inventoryTable tr { background-color: #fff; border-color: #ddd; }
+    .container { padding: 10px; margin-top: 20px; } 
     
-    body.edit-mode #inventoryTable tr {
-        padding-left: 145px;
+    .floating-auth { display: none !important; }
+    .mobile-auth-btn { display: flex !important; }
+
+    .sticky-top-area {
+        padding-top: 15px; padding-bottom: 10px;
+        margin-top: -10px; margin-left: -10px; margin-right: -10px;
+        padding-left: 10px; padding-right: 10px;
     }
 
-    #inventoryTable td[data-label="รูปสินค้า"] {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 90px;
-        height: 90px;
-        padding: 0;
-        border: none;
-        transition: left 0.3s;
-    }
-    body.edit-mode #inventoryTable td[data-label="รูปสินค้า"] {
-        left: 45px;
-    }
+    #inventoryTable { border: 0; min-width: auto; }
+    #inventoryTable thead { display: none; }
+    
+    #inventoryTable tr { display: block; position: relative; padding: 10px; padding-left: 115px; min-height: 100px; margin-bottom: 15px; border-radius: 8px; }
+    body.dark-mode #inventoryTable tr { background-color: #1a1a1a; border: 1px solid #bcad8d; }
+    body.light-mode #inventoryTable tr { background-color: #fff; border: 1px solid #ddd; }
+    body.edit-mode #inventoryTable tr { padding-left: 145px; }
+    
+    #inventoryTable tr.empty-row { display: block; padding: 30px 10px; text-align: center; min-height: auto; }
+    #inventoryTable tr.empty-row td { display: block; text-align: center; padding: 0; border: none; }
+    #inventoryTable tr.empty-row td::before { display: none; }
+
+    #inventoryTable td[data-label="รูปสินค้า"] { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 90px; height: 90px; padding: 0; border: none; transition: left 0.3s; }
+    body.edit-mode #inventoryTable td[data-label="รูปสินค้า"] { left: 45px; }
     #inventoryTable td[data-label="รูปสินค้า"] img { width: 100%; height: 100%; }
     #inventoryTable td[data-label="รูปสินค้า"]::before { display: none; }
     
-    #inventoryTable td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 4px 5px;
-        text-align: right;
-        border: none;
-        border-bottom: 1px solid;
+    #inventoryTable td { display: flex; justify-content: space-between; align-items: center; padding: 4px 5px; text-align: right; border: none; border-bottom: 1px solid; word-wrap: normal; word-break: break-all;} 
+    
+    /* ตัดคำรายการยาวๆ บนมือถือให้เป็น ... */
+    .product-name-col { 
+        text-align: right !important; 
+        padding-left: 5px !important; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        max-width: 60%; /* บังคับความกว้างสูงสุดเพื่อให้มีที่เหลือโชว์ ... */
+        display: inline-block; /* เพื่อให้ text-overflow ทำงานใน flexbox */
     }
+
     body.dark-mode #inventoryTable td { border-color: #555; }
     body.light-mode #inventoryTable td { border-color: #eee; }
+    #inventoryTable td:last-of-type { border-bottom: none; }
+    #inventoryTable td::before { content: attr(data-label); font-weight: bold; text-align: left; padding-right: 15px; flex-shrink: 0;}
     
-    #inventoryTable td:last-of-type {
-        border-bottom: none;
-    }
+    .checkbox-col { display: none !important; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: auto; border: none; padding: 0; }
+    .checkbox-col::before { display: none; }
+    body.edit-mode .checkbox-col { display: block !important; }
 
-    #inventoryTable td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        text-align: left;
-        padding-right: 15px;
-    }
-    
-    .action-col {
-        display: none !important;
-    }
-
-    .checkbox-col {
-        display: none !important;
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: auto;
-        border: none;
-        padding: 0;
-    }
-    .checkbox-col::before {
-        display: none;
-    }
-    body.edit-mode .checkbox-col {
-        display: block !important;
-    }
-    
-    body.edit-mode .action-col {
-        display: block !important;
-        position: relative;
-        padding-left: 0;
-        text-align: center;
-        border-bottom: 1px solid;
-        margin-top: 10px;
-    }
-    body.edit-mode .action-col {
+    /* ปุ่มแก้ไขในโหมดมือถือ ชิดขวาสุด */
+    .action-col { display: none !important; }
+    body.edit-mode .action-col { 
+        display: flex !important; 
+        justify-content: flex-end; /* จัดปุ่มไปชิดขวา */
+        position: relative; 
+        padding-left: 0; 
+        border-top: 1px solid; /* เปลี่ยนเป็นขอบบน */
         border-bottom: none;
+        margin-top: 10px; 
+        padding-top: 10px; /* เพิ่มระยะห่างด้านบน */
     }
-    body.edit-mode .action-col::before {
-        display: none;
-    }
+    body.dark-mode .action-col { border-color: #555; }
+    body.light-mode .action-col { border-color: #eee; }
+    body.edit-mode .action-col::before { display: none; }
 }
